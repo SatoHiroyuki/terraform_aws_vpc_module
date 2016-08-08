@@ -10,19 +10,20 @@ Non VPC NAT Gateway.
 
 ```
 module "terraform_aws_vpc_module" {
-    source = "git::https://github.com/SatoHiroyuki/terraform_aws_vpc_module.git"
+  source = "git::https://github.com/SatoHiroyuki/terraform_aws_vpc_module.git"
 
-    vpc_name = "vpc"
-    dns_hostnames = "true"
+  vpc_name = "vpc"
+  dns_hostnames = "true"
 
-    ip_prefix = "172.16.0.0/16"
-    public-route-igw = "172.16.0.0/23,172.16.32.0/23,172.16.64.0/23,172.16.96.0/23,172.16.128.0/23,172.16.160.0/23"
-    public-route-variable = "172.16.2.0/23,172.16.34.0/23,172.16.66.0/23,172.16.98.0/23,172.16.130.0/23,172.16.162.0/23"
-    protected-route-nat = "172.16.4.0/23,172.16.36.0/23,172.16.68.0/23,172.16.100.0/23,172.16.132.0/23,172.16.164.0/23"
-    private-route-local = "172.16.6.0/23,172.16.38.0/23,172.16.70.0/23,172.16.102.0/23,172.16.134.0/23,172.16.166.0/23"
+  ip_address = "172.16.0.0/16"
+  ip_address_network_portion = "172.16"
+  public-route-igw = ".0.0/23,.32.0/23,.64.0/23,.96.0/23,.128.0/23,.160.0/23"
+  public-route-variable = ".2.0/23,.34.0/23,.66.0/23,.98.0/23,.130.0/23,.162.0/23"
+  protected-route-nat = ".4.0/23,.36.0/23,.68.0/23,.100.0/23,.132.0/23,.164.0/23"
+  private-route-local = ".6.0/23,.38.0/23,.70.0/23,.102.0/23,.134.0/23,.166.0/23"
 
-    availability_zone = "ap-northeast-1a,ap-northeast-1c"
-    environment = "dev,dev,stg,stg,prd,prd"
+  availability_zone = "ap-northeast-1a,ap-northeast-1c"
+  environment = "dev,dev,stg,stg,prd,prd"
 }
 
 ```

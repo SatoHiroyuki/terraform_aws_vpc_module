@@ -1,10 +1,9 @@
-
 ##################
 # VPC
 ##################
 
 resource "aws_vpc" "vpc" {
-    cidr_block = "${var.ip_prefix}"
+    cidr_block = "${var.ip_address}"
     enable_dns_hostnames = "${var.dns_hostnames}"
     tags {
         Name = "${var.vpc_name}"
@@ -18,7 +17,7 @@ resource "aws_vpc" "vpc" {
 resource "aws_subnet" "public-route-igw" {
     count = "${length(compact(split(",", var.public-route-igw)))}"
     vpc_id = "${aws_vpc.vpc.id}"
-    cidr_block = "${element(split(",", var.public-route-igw), count.index)}"
+    cidr_block = "${var.ip_address_network_portion}${element(split(",", var.public-route-igw), count.index)}"
     availability_zone = "${element(split(",", var.availability_zone), count.index)}"
     map_public_ip_on_launch = true
     tags {
@@ -29,7 +28,7 @@ resource "aws_subnet" "public-route-igw" {
 resource "aws_subnet" "public-route-variable" {
     count = "${length(compact(split(",", var.public-route-variable)))}"
     vpc_id = "${aws_vpc.vpc.id}"
-    cidr_block = "${element(split(",", var.public-route-variable), count.index)}"
+    cidr_block = "${var.ip_address_network_portion}${element(split(",", var.public-route-variable), count.index)}"
     availability_zone = "${element(split(",", var.availability_zone), count.index)}"
     map_public_ip_on_launch = true
     tags {
@@ -40,7 +39,7 @@ resource "aws_subnet" "public-route-variable" {
 resource "aws_subnet" "protected-route-nat" {
     count = "${length(compact(split(",", var.protected-route-nat)))}"
     vpc_id = "${aws_vpc.vpc.id}"
-    cidr_block = "${element(split(",", var.protected-route-nat), count.index)}"
+    cidr_block = "${var.ip_address_network_portion}${element(split(",", var.protected-route-nat), count.index)}"
     availability_zone = "${element(split(",", var.availability_zone), count.index)}"
     tags {
         Name = "${element(split(",", var.environment), count.index)}-protected-route-nat-${element(split(",", var.availability_zone), count.index)}"
@@ -50,7 +49,7 @@ resource "aws_subnet" "protected-route-nat" {
 resource "aws_subnet" "private-route-local" {
     count = "${length(compact(split(",", var.private-route-local)))}"
     vpc_id = "${aws_vpc.vpc.id}"
-    cidr_block = "${element(split(",", var.private-route-local), count.index)}"
+    cidr_block = "${var.ip_address_network_portion}${element(split(",", var.private-route-local), count.index)}"
     availability_zone = "${element(split(",", var.availability_zone), count.index)}"
     tags {
         Name = "${element(split(",", var.environment), count.index)}-private-route-local-${element(split(",", var.availability_zone), count.index)}"
